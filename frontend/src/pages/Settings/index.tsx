@@ -26,14 +26,24 @@ export default function SettingsPage() {
   if (!admin || !siteSettings) return null;
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="max-w-6xl space-y-6">
       <h1 className="text-2xl font-bold tracking-tight text-gray-900">
         Settings
       </h1>
 
-      <ProfileForm admin={admin} onUpdated={setAdmin} />
-      <PasswordForm />
-      <SiteSettingsForm settings={siteSettings} onUpdated={setSiteSettings} />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="space-y-6">
+          <ProfileForm admin={admin} onUpdated={setAdmin} />
+          <PasswordForm />
+        </div>
+
+        <div>
+          <SiteSettingsForm
+            settings={siteSettings}
+            onUpdated={setSiteSettings}
+          />
+        </div>
+      </div>
     </div>
   );
 }

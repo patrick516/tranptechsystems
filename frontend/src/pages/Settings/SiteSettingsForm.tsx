@@ -13,10 +13,40 @@ interface SiteSettingsFormProps {
   onUpdated: (settings: SiteSettings) => void;
 }
 
+const ViewRow = ({ label, value }: { label: string; value?: string }) => {
+  const isLink = value?.startsWith("http");
+
+  return (
+    <div className="grid grid-cols-3 gap-4 py-3">
+      <dt className="text-sm text-gray-500">{label}</dt>
+      <dd className="col-span-2 min-w-0 text-sm text-gray-900">
+        {!value ? (
+          "—"
+        ) : isLink ? (
+          <a
+            href={value}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={value}
+            className="block truncate text-brand-600 hover:underline"
+          >
+            {value}
+          </a>
+        ) : (
+          <span className="block truncate" title={value}>
+            {value}
+          </span>
+        )}
+      </dd>
+    </div>
+  );
+};
+
 export default function SiteSettingsForm({
   settings,
   onUpdated,
 }: SiteSettingsFormProps) {
+  const [editing, setEditing] = useState(false);
   const [form, setForm] = useState<SiteSettings>(settings);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -56,6 +86,7 @@ export default function SiteSettingsForm({
       const updated = await updateSiteSettings(form);
       onUpdated(updated);
       setMessage("Site settings updated successfully");
+      setEditing(false);
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to update site settings");
     } finally {
@@ -63,10 +94,58 @@ export default function SiteSettingsForm({
     }
   };
 
+  const handleCancel = () => {
+    setForm(settings);
+    setError("");
+    setEditing(false);
+  };
+
+  if (!editing) {
+    return (
+      <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mb-1 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-gray-900">
+            Site Contact Info
+          </h2>
+          <button
+            onClick={() => setEditing(true)}
+            className="text-sm font-medium text-brand-600 hover:underline"
+          >
+            Edit
+          </button>
+        </div>
+        <p className="mb-2 text-sm text-gray-500">
+          Used on the public website's footer and contact section.
+        </p>
+
+        {message && <p className="mb-3 text-sm text-brand-600">{message}</p>}
+
+        <dl className="divide-y divide-gray-100">
+          <ViewRow label="Contact Email" value={settings.contactEmail} />
+          <ViewRow label="Contact Phone" value={settings.contactPhone} />
+          <ViewRow label="Address" value={settings.address} />
+          <ViewRow label="LinkedIn" value={settings.socials?.linkedin} />
+          <ViewRow label="GitHub" value={settings.socials?.github} />
+          <ViewRow label="Twitter / X" value={settings.socials?.twitter} />
+          <ViewRow label="Facebook" value={settings.socials?.facebook} />
+          <ViewRow label="Bank Name" value={settings.bankDetails?.bankName} />
+          <ViewRow
+            label="Account Name"
+            value={settings.bankDetails?.accountName}
+          />
+          <ViewRow
+            label="Account Number"
+            value={settings.bankDetails?.accountNumber}
+          />
+        </dl>
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       <h2 className="mb-1 text-sm font-semibold text-gray-900">
-        Site Contact Info
+        Edit Site Contact Info
       </h2>
       <p className="mb-4 text-sm text-gray-500">
         Used on the public website's footer and contact section.
@@ -165,16 +244,24 @@ export default function SiteSettingsForm({
           </div>
         </div>
 
-        {message && <p className="text-sm text-brand-600">{message}</p>}
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50"
-        >
-          {saving ? "Saving..." : "Save Site Settings"}
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="submit"
+            disabled={saving}
+            className="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50"
+          >
+            {saving ? "Saving..." : "Save Site Settings"}
+          </button>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="rounded-md px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );
