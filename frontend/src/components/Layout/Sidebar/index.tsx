@@ -1,3 +1,4 @@
+// src/components/Layout/Sidebar/index.tsx
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { logout } from "@/services/authService";
@@ -11,6 +12,7 @@ const navItems = [
   { label: "Portfolio", to: "/portfolio" },
   { label: "Settings", to: "/settings" },
 ];
+
 export default function Sidebar() {
   const [newLeadsCount, setNewLeadsCount] = useState(0);
 
@@ -21,18 +23,18 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <aside className="sticky top-0 flex h-screen w-56 flex-col overflow-y-auto border-r border-gray-200 bg-white p-4">
-      <div className="mb-8 px-1">
-        <img src={logo} alt="TranpTech Systems" className="h-9 w-auto" />
+    <aside className="sticky top-0 flex h-screen w-60 flex-col overflow-y-auto border-r border-gray-200 bg-white">
+      <div className="flex h-16 items-center justify-center border-b border-gray-200 px-4">
+        <img src={logo} alt="TranpTech Systems" className="h-11 w-auto" />
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1">
+      <nav className="flex flex-1 flex-col gap-2 px-4 pt-6">
         {navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
-              `flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium tracking-tight transition ${
+              `flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium tracking-tight transition ${
                 isActive
                   ? "bg-brand-50 text-brand-700"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -49,12 +51,14 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <button
-        onClick={logout}
-        className="mt-4 rounded-md px-3 py-2 text-left text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-      >
-        Logout
-      </button>
+      <div className="border-t border-gray-100 px-4 py-4">
+        <button
+          onClick={logout}
+          className="w-full rounded-md px-3 py-2.5 text-left text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+        >
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }
