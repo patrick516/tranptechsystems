@@ -2,32 +2,43 @@
 import { useEffect, useState } from "react";
 import { getLeads } from "@/services/leadService";
 import type { Lead } from "@/services/leadService";
+import LeadModal from "./LeadModal";
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selected, setSelected] = useState<Lead | null>(null);
 
-  useEffect(() => {
+  const loadLeads = () => {
     getLeads()
       .then(setLeads)
       .catch(() => setError("Failed to load leads"))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadLeads();
   }, []);
 
-  if (loading) return <p className="text-slate-400">Loading leads...</p>;
-  if (error) return <p className="text-red-400">{error}</p>;
+  const handleUpdated = () => {
+    loadLeads();
+    setSelected(null);
+  };
+
+  if (loading) return <p className="text-gray-500">Loading leads...</p>;
+  if (error) return <p className="text-red-600">{error}</p>;
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold text-white">Leads</h1>
+      <h1 className="mb-4 text-2xl font-bold text-gray-900">Leads</h1>
 
       {leads.length === 0 ? (
-        <p className="text-slate-400">No leads yet.</p>
+        <p className="text-gray-500">No leads yet.</p>
       ) : (
-        <div className="overflow-x-auto rounded-md border border-slate-800">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900 text-slate-400">
+        <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
+          <table className="w-full text-left text-sm text-gray-700">
+            <thead className="bg-gray-50 text-gray-500">
               <tr>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Email</th>
@@ -38,7 +49,11 @@ export default function LeadsPage() {
             </thead>
             <tbody>
               {leads.map((lead) => (
-                <tr key={lead._id} className="border-t border-slate-800">
+                <tr
+                  key={lead._id}
+                  onClick={() => setSelected(lead)}
+                  className="cursor-pointer border-t border-gray-200 hover:bg-gray-50"
+                >
                   <td className="px-4 py-3">{lead.name}</td>
                   <td className="px-4 py-3">{lead.email}</td>
                   <td className="max-w-xs truncate px-4 py-3">
@@ -54,6 +69,12 @@ export default function LeadsPage() {
           </table>
         </div>
       )}
+
+      <LeadModal
+        lead={selected}
+        onClose={() => setSelected(null)}
+        onUpdated={handleUpdated}
+      />
     </div>
   );
 }

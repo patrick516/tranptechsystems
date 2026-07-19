@@ -7,6 +7,7 @@ import DashboardPage from "@/pages/Dashboard";
 import LeadsPage from "@/pages/Leads";
 import PortfolioPage from "@/pages/Portfolio";
 import SettingsPage from "@/pages/Settings";
+import QuotesPage from "@/pages/Quotes";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/leads" element={<LeadsPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/quotes" element={<QuotesPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

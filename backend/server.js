@@ -12,6 +12,10 @@ const connectDB = require("./src/config/db");
 const authRoutes = require("./src/routes/authRoutes");
 const leadRoutes = require("./src/routes/leadRoutes");
 const portfolioRoutes = require("./src/routes/portfolioRoutes");
+const statsRoutes = require("./src/routes/statsRoutes");
+const siteSettingsRoutes = require("./src/routes/siteSettingsRoutes");
+const quoteRoutes = require("./src/routes/quoteRoutes");
+const uploadRoutes = require("./src/routes/uploadRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -42,7 +46,10 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/portfolio", portfolioRoutes);
-
+app.use("/api/stats", statsRoutes);
+app.use("/api/settings", siteSettingsRoutes);
+app.use("/api/quotes", quoteRoutes);
+app.use("/api/upload", uploadRoutes);
 // Health check
 app.get("/health", (req, res) => {
   res.json({
@@ -73,15 +80,15 @@ app.use((err, req, res, next) => {
 // Graceful shutdown
 const mongoose = require("mongoose");
 const gracefulShutdown = () => {
-  console.log("\n🔄 Received shutdown signal, gracefully shutting down...");
+  console.log("\n Received shutdown signal, gracefully shutting down...");
   mongoose.connection
     .close(false)
     .then(() => {
-      console.log("✅ Database disconnected");
+      console.log(" Database disconnected");
       process.exit(0);
     })
     .catch((error) => {
-      console.error("❌ Error during shutdown:", error);
+      console.error(" Error during shutdown:", error);
       process.exit(1);
     });
 };
@@ -92,9 +99,9 @@ process.on("SIGINT", gracefulShutdown);
 // Start server
 app.listen(PORT, () => {
   console.log("\n" + "=".repeat(50));
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📝 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+  console.log(` Server running on port ${PORT}`);
+  console.log(` Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(` Health check: http://localhost:${PORT}/health`);
   console.log("=".repeat(50) + "\n");
 });
 

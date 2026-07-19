@@ -74,4 +74,61 @@ const getMe = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { register, login, getMe };
+// @desc    Update logged-in admin's profile (name/email)
+// @route   PUT /api/auth/me
+const updateProfile = asyncHandler(async (req, res) => {
+  const { name, email } = req.body;
+
+  if (email) {
+    const existing = await Admin.findOne({
+      email,
+      _id: { $ne: req.admin._id },
+    });
+    if (existing) {
+      throw new ErrorResponse("Email already in use", 400);
+    }
+  }
+
+  const admin = await Admin.findByIdAndUpdate(
+    req.admin._id,
+    { name, email },
+    { new: true, runValidators: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    admin: {
+      id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      role: admin.role,
+    },
+  });
+});
+
+// @desc    Change logged-in admin's password
+// @route   PUT /api/auth/password
+const updatePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    throw new ErrorResponse("Current and new password are required", 400);
+  }
+
+  const admin = await Admin.findById(req.admin._id).select("+password");
+  const isMatch = await admin.comparePassword(currentPassword);
+
+  if (!isMatch) {
+    throw new ErrorResponse("Current password is incorrect", 401);
+  }
+
+  admin.password = newPassword;
+  await admin.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Password updated successfully",
+  });
+});
+
+module.exports = { register, login, getMe, updateProfile, updatePassword };

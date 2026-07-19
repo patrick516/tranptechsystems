@@ -13,13 +13,13 @@ export default function PortfolioTable({
   onDelete,
 }: PortfolioTableProps) {
   if (portfolios.length === 0) {
-    return <p className="text-slate-400">No portfolio items yet.</p>;
+    return <p className="text-gray-500">No portfolio items yet.</p>;
   }
 
   return (
-    <div className="overflow-x-auto rounded-md border border-slate-800">
-      <table className="w-full text-left text-sm text-slate-300">
-        <thead className="bg-slate-900 text-slate-400">
+    <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
+      <table className="w-full text-left text-sm text-gray-700">
+        <thead className="bg-gray-50 text-gray-500">
           <tr>
             <th className="px-4 py-3">Title</th>
             <th className="px-4 py-3">Category</th>
@@ -30,7 +30,7 @@ export default function PortfolioTable({
         </thead>
         <tbody>
           {portfolios.map((item) => (
-            <tr key={item._id} className="border-t border-slate-800">
+            <tr key={item._id} className="border-t border-gray-200">
               <td className="px-4 py-3">{item.title}</td>
               <td className="px-4 py-3">{item.category || "—"}</td>
               <td className="px-4 py-3">{item.featured ? "Yes" : "No"}</td>
@@ -38,13 +38,13 @@ export default function PortfolioTable({
               <td className="px-4 py-3 text-right">
                 <button
                   onClick={() => onEdit(item)}
-                  className="mr-3 text-emerald-400 hover:underline"
+                  className="mr-3 text-brand-600 hover:underline"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => onDelete(item._id)}
-                  className="text-red-400 hover:underline"
+                  className="text-red-600 hover:underline"
                 >
                   Delete
                 </button>
