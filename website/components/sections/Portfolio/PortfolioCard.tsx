@@ -2,10 +2,11 @@
 import { Portfolio } from "@/lib/portfolioService";
 
 interface PortfolioCardProps {
+  onSelect: () => void;
   project: Portfolio;
 }
 
-export default function PortfolioCard({ project }: PortfolioCardProps) {
+export default function PortfolioCard({ project, onSelect }: PortfolioCardProps) {
   return (
     <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:border-brand-200 hover:shadow-sm">
       {project.coverImage ? (
