@@ -2,8 +2,8 @@
 import { Portfolio } from "@/lib/portfolioService";
 
 interface PortfolioCardProps {
-  onSelect: () => void;
   project: Portfolio;
+  onSelect: () => void;
 }
 
 export default function PortfolioCard({ project, onSelect }: PortfolioCardProps) {
