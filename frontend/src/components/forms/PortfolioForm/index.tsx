@@ -218,10 +218,14 @@ export default function PortfolioForm({
         </button>
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || uploading}
           className="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50"
         >
-          {saving ? "Saving..." : submitLabel}
+          {saving
+            ? "Saving..."
+            : uploading
+              ? "Uploading image..."
+              : submitLabel}
         </button>
       </div>
     </form>
