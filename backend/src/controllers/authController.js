@@ -171,11 +171,158 @@ Please click on the following link, or paste it into your browser, to complete t
 ${resetUrl}\n\n
 If you did not request this, please ignore this email and your password will remain unchanged.\n`;
 
+  // --- NEW BEAUTIFUL HTML TEMPLATE ---
   const html = `
-    <p>You are receiving this email because you (or someone else) requested a password reset for your account.</p>
-    <p>Please click on the following link, or paste it into your browser, to complete the process:</p>
-    <p><a href="${resetUrl}" target="_blank">${resetUrl}</a></p>
-    <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset your password</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f4f7fc;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 580px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      padding: 40px 35px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .logo img {
+      max-width: 140px;
+      height: auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      color: #1e1b4b;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+    .header p {
+      color: #6b7280;
+      font-size: 15px;
+    }
+    .body-text {
+      color: #1f2937;
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+    .body-text strong {
+      color: #1e1b4b;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 14px 34px;
+      border-radius: 40px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+      transition: all 0.2s;
+      margin: 8px 0 18px 0;
+    }
+    .btn:hover {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
+      transform: translateY(-1px);
+    }
+    .fallback-link {
+      display: block;
+      word-break: break-all;
+      background: #f8fafc;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #4b5563;
+      border: 1px solid #e5e7eb;
+      margin: 18px 0 8px 0;
+    }
+    .fallback-link a {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 13px;
+      color: #9ca3af;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 22px;
+    }
+    .footer span {
+      color: #6b7280;
+    }
+    @media (max-width: 480px) {
+      .container { padding: 30px 20px; }
+      .header h1 { font-size: 22px; }
+      .btn { padding: 12px 28px; font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo – ensure this URL points to your hosted logo -->
+    <div class="logo">
+      <img src="https://tranptechsystems.onrender.com/images/SYstemsLogo.png" alt="TranpTech Systems" />
+    </div>
+
+    <div class="header">
+      <h1>Reset Your Password</h1>
+      <p>We received a request to reset the password for your account.</p>
+    </div>
+
+    <div class="body-text">
+      Hello <strong>${admin.name || "there"}</strong>,
+      <br /><br />
+      You (or someone else) requested a password reset for your <strong>TranpTech Systems</strong> account.
+      <br /><br />
+      Click the button below to create a new password:
+    </div>
+
+    <div style="text-align: center;">
+      <a href="${resetUrl}" class="btn" target="_blank">Reset Password</a>
+    </div>
+
+    <div style="text-align: center; font-size: 14px; color: #6b7280; margin: 10px 0 6px 0;">
+      Or copy and paste this link into your browser:
+    </div>
+    <div class="fallback-link">
+      <a href="${resetUrl}" target="_blank">${resetUrl}</a>
+    </div>
+
+    <div class="body-text" style="font-size: 14px; color: #6b7280; margin-top: 20px;">
+      This link will expire in <strong>10 minutes</strong>.
+      <br /><br />
+      If you did not request this, please ignore this email and your password will remain unchanged.
+    </div>
+
+    <div class="footer">
+      &copy; 2026 <span>TranpTech Systems</span> – All rights reserved.
+      <br />
+      <span style="font-size: 12px;">This is an automated message, please do not reply.</span>
+    </div>
+  </div>
+</body>
+</html>
   `;
 
   try {

@@ -9,12 +9,12 @@ const PASSWORD = process.env.SEED_ADMIN_PASSWORD;
 
 const run = async () => {
   if (!PASSWORD) {
-    console.error("❌ Set SEED_ADMIN_PASSWORD before running this script.");
+    console.error(" Set SEED_ADMIN_PASSWORD before running this script.");
     process.exit(1);
   }
 
   await mongoose.connect(process.env.MONGODB_URI);
-  console.log("✅ Connected to MongoDB");
+  console.log("Connected to MongoDB");
 
   const existing = await Admin.findOne({ email: EMAIL });
   if (existing) {
