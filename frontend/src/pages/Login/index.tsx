@@ -158,9 +158,7 @@ export default function LoginPage() {
 
             <button
               type="button"
-              onClick={() => {
-                // Add your forgot-password flow here
-              }}
+              onClick={() => navigate("/forgot-password")}
               className="text-[13px] font-medium text-blue-600 transition hover:text-indigo-700"
             >
               Forgot password?

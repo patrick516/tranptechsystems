@@ -27,6 +27,15 @@ const adminSchema = new mongoose.Schema(
       enum: ["admin", "superadmin"],
       default: "admin",
     },
+    // 👇 New fields for password reset
+    resetPasswordToken: {
+      type: String,
+      select: false, // not returned by default
+    },
+    resetPasswordExpires: {
+      type: Date,
+      select: false,
+    },
   },
   { timestamps: true },
 );

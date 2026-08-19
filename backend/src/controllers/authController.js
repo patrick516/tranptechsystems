@@ -1,8 +1,9 @@
-// src/controllers/authController.js
+const crypto = require("crypto"); //
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("../utils/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
 const Admin = require("../models/Admin");
+const sendEmail = require("../utils/sendEmail");
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -131,4 +132,119 @@ const updatePassword = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { register, login, getMe, updateProfile, updatePassword };
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    throw new ErrorResponse("Please provide an email address", 400);
+  }
+
+  const admin = await Admin.findOne({ email });
+  if (!admin) {
+    // For security, do not reveal if email exists or not
+    // We'll still return a generic success message
+    return res.status(200).json({
+      success: true,
+      message:
+        "If an account with that email exists, a reset link has been sent.",
+    });
+  }
+
+  // Generate a secure random token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  // Hash the token and store it (optional – we store plain token for simplicity)
+  // Many implementations store the hashed version, but we'll store plain + expiry
+  admin.resetPasswordToken = resetToken;
+  admin.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+  await admin.save();
+
+  // Build reset URL (adjust to your frontend URL)
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+  const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
+
+  // Email content
+  const subject = "Password Reset Request";
+  const text = `You are receiving this email because you (or someone else) requested a password reset for your account.\n\n
+Please click on the following link, or paste it into your browser, to complete the process:\n\n
+${resetUrl}\n\n
+If you did not request this, please ignore this email and your password will remain unchanged.\n`;
+
+  const html = `
+    <p>You are receiving this email because you (or someone else) requested a password reset for your account.</p>
+    <p>Please click on the following link, or paste it into your browser, to complete the process:</p>
+    <p><a href="${resetUrl}" target="_blank">${resetUrl}</a></p>
+    <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+  `;
+
+  try {
+    await sendEmail({
+      to: admin.email,
+      subject,
+      text,
+      html,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Reset link sent to your email.",
+    });
+  } catch (err) {
+    // If email fails, clear the token fields
+    admin.resetPasswordToken = undefined;
+    admin.resetPasswordExpires = undefined;
+    await admin.save();
+
+    throw new ErrorResponse(
+      "Email could not be sent. Please try again later.",
+      500,
+    );
+  }
+});
+
+// @desc    Reset password using token
+// @route   POST /api/auth/reset-password
+const resetPassword = asyncHandler(async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    throw new ErrorResponse("Token and new password are required", 400);
+  }
+
+  // Find admin with matching token and not expired
+  const admin = await Admin.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+
+  if (!admin) {
+    throw new ErrorResponse("Invalid or expired reset token", 400);
+  }
+
+  // Update password – pre-save hook will hash it
+  admin.password = newPassword;
+  // Clear the reset fields
+  admin.resetPasswordToken = undefined;
+  admin.resetPasswordExpires = undefined;
+
+  await admin.save();
+
+  // Optionally, you can generate a new JWT token and send it back so user is logged in immediately
+  // const tokenJwt = generateToken(admin._id); but we'll just return success
+
+  res.status(200).json({
+    success: true,
+    message: "Password has been reset successfully. Please log in.",
+  });
+});
+
+module.exports = {
+  register,
+  login,
+  getMe,
+  updateProfile,
+  updatePassword,
+  forgotPassword,
+  resetPassword,
+};

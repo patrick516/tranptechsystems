@@ -8,13 +8,19 @@ import LeadsPage from "@/pages/Leads";
 import PortfolioPage from "@/pages/Portfolio";
 import SettingsPage from "@/pages/Settings";
 import QuotesPage from "@/pages/Quotes";
+import ForgotPasswordPage from "@/pages/ForgotPassword";
+import ResetPasswordPage from "@/pages/ResetPassword";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
+        {/* Protected routes */}
         <Route
           element={
             <ProtectedRoute>

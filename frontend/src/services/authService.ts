@@ -36,3 +36,40 @@ export const logout = (): void => {
   localStorage.removeItem("adminToken");
   window.location.href = "/login";
 };
+
+// ===== NEW: Forgot & Reset Password =====
+export interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
+export const forgotPassword = async (
+  email: string,
+): Promise<ForgotPasswordResponse> => {
+  const { data } = await apiClient.post<ForgotPasswordResponse>(
+    "/auth/forgot-password",
+    { email },
+  );
+  return data;
+};
+
+export interface ResetPasswordPayload {
+  token: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
+export const resetPassword = async (
+  token: string,
+  newPassword: string,
+): Promise<ResetPasswordResponse> => {
+  const { data } = await apiClient.post<ResetPasswordResponse>(
+    "/auth/reset-password",
+    { token, newPassword },
+  );
+  return data;
+};
