@@ -93,7 +93,7 @@ export default function ForgotPasswordPage() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@embrace.com"
+                  placeholder="admin@tranptechsystems.com"
                   className="h-[46px] w-full rounded-[7px] border border-slate-300 bg-slate-50/80 pl-10 pr-3 text-[13px] text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
                 />
               </div>
