@@ -171,7 +171,6 @@ Please click on the following link, or paste it into your browser, to complete t
 ${resetUrl}\n\n
 If you did not request this, please ignore this email and your password will remain unchanged.\n`;
 
-  // --- NEW BEAUTIFUL HTML TEMPLATE ---
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -280,9 +279,9 @@ If you did not request this, please ignore this email and your password will rem
 </head>
 <body>
   <div class="container">
-    <!-- Logo – ensure this URL points to your hosted logo -->
+    <!-- Logo – using direct Vercel URL -->
     <div class="logo">
-      <img src="https://tranptechsystems.onrender.com/images/SYstemsLogo.png" alt="TranpTech Systems" />
+      <img src="https://tranptechsystems.vercel.app/images/SYstemsLogo.png" alt="TranpTech Systems" />
     </div>
 
     <div class="header">
@@ -323,7 +322,7 @@ If you did not request this, please ignore this email and your password will rem
   </div>
 </body>
 </html>
-  `;
+`;
 
   try {
     await sendEmail({
