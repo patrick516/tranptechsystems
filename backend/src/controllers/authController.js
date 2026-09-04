@@ -188,15 +188,14 @@ If you did not request this, please ignore this email and your password will rem
     }
     .container {
       max-width: 580px;
-      margin: 0 auto;
       background-color: #ffffff;
       border-radius: 16px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-      overflow: hidden;
-      padding: 40px 35px;
+      padding: 40px 30px;  /* reduced left/right padding */
+      text-align: left;    /* left-align everything */
     }
     .logo {
-      text-align: center;
+      text-align: left;    /* logo left */
       margin-bottom: 28px;
     }
     .logo img {
@@ -204,7 +203,7 @@ If you did not request this, please ignore this email and your password will rem
       height: auto;
     }
     .header {
-      text-align: center;
+      text-align: left;    /* heading left */
       margin-bottom: 30px;
     }
     .header h1 {
@@ -237,7 +236,7 @@ If you did not request this, please ignore this email and your password will rem
       text-decoration: none;
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
       transition: all 0.2s;
-      margin: 8px 0 18px 0;
+      margin: 8px 0 18px 0;  /* left-aligned */
     }
     .btn:hover {
       background: linear-gradient(135deg, #2563eb, #4f46e5);
@@ -261,7 +260,7 @@ If you did not request this, please ignore this email and your password will rem
     }
     .footer {
       margin-top: 30px;
-      text-align: center;
+      text-align: left;    /* footer left */
       font-size: 13px;
       color: #9ca3af;
       border-top: 1px solid #e5e7eb;
@@ -279,7 +278,7 @@ If you did not request this, please ignore this email and your password will rem
 </head>
 <body>
   <div class="container">
-    <!-- Logo – using direct Vercel URL -->
+    <!-- Logo -->
     <div class="logo">
       <img src="https://tranptechsystems.vercel.app/images/SYstemsLogo.png" alt="TranpTech Systems" />
     </div>
@@ -297,18 +296,19 @@ If you did not request this, please ignore this email and your password will rem
       Click the button below to create a new password:
     </div>
 
-    <div style="text-align: center;">
+    <!-- Left-aligned button -->
+    <div>
       <a href="${resetUrl}" class="btn" target="_blank">Reset Password</a>
     </div>
 
-    <div style="text-align: center; font-size: 14px; color: #6b7280; margin: 10px 0 6px 0;">
+    <div style="font-size: 14px; color: #6b7280; margin: 10px 0 6px 0; text-align: left;">
       Or copy and paste this link into your browser:
     </div>
     <div class="fallback-link">
       <a href="${resetUrl}" target="_blank">${resetUrl}</a>
     </div>
 
-    <div class="body-text" style="font-size: 14px; color: #6b7280; margin-top: 20px;">
+    <div class="body-text" style="font-size: 14px; color: #6b7280; margin-top: 20px; text-align: left;">
       This link will expire in <strong>10 minutes</strong>.
       <br /><br />
       If you did not request this, please ignore this email and your password will remain unchanged.

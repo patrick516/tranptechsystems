@@ -6,19 +6,12 @@ interface FeatureCardProps {
 }
 
 export default function FeatureCard({ feature }: FeatureCardProps) {
+  const Icon = feature.icon;
+
   return (
-    <div className="text-center">
-      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-700">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-        >
-          <path d={feature.icon} strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+    <div className="group text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-brand-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-brand-600/20">
+        <Icon size={22} strokeWidth={1.8} />
       </div>
       <h3 className="mb-1 text-base font-semibold text-gray-900">
         {feature.title}

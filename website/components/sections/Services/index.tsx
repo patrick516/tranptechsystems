@@ -19,10 +19,18 @@ export default function Services() {
             your business actually works.
           </p>
         </Reveal>
-
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {services.map((service, i) => (
-            <Reveal key={service.title} direction="up" delay={i * 0.08}>
+            <Reveal
+              key={service.title}
+              direction="up"
+              delay={i * 0.08}
+              className={
+                services.length % 2 === 1 && i === services.length - 1
+                  ? "sm:col-span-2 sm:mx-auto sm:w-1/2"
+                  : undefined
+              }
+            >
               <ServiceCard service={service} />
             </Reveal>
           ))}
