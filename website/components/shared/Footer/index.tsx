@@ -9,8 +9,8 @@ export default async function Footer() {
 
   return (
     <footer className="border-t border-gray-200 bg-gray-50">
-      <div className="container-max grid grid-cols-1 gap-10 py-16 md:grid-cols-3">
-        <div>
+      <div className="container-max grid grid-cols-1 gap-10 py-16 text-center md:grid-cols-3 md:text-left">
+        <div className="flex flex-col items-center md:items-start">
           <Image
             src="/images/SYstemsLogo.png"
             alt={SITE_NAME}
@@ -23,7 +23,7 @@ export default async function Footer() {
 
         <FooterLinks />
 
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <h3 className="mb-4 text-sm font-semibold text-gray-900">
             Get in Touch
           </h3>
