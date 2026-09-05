@@ -6,9 +6,12 @@ interface PortfolioCardProps {
   onSelect: () => void;
 }
 
-export default function PortfolioCard({ project, onSelect }: PortfolioCardProps) {
+export default function PortfolioCard({
+  project,
+  onSelect,
+}: PortfolioCardProps) {
   return (
-    <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:border-brand-200 hover:shadow-sm">
+    <div className="group w-[280px] shrink-0 snap-start overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:border-brand-200 hover:shadow-sm sm:w-[320px]">
       {project.coverImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img

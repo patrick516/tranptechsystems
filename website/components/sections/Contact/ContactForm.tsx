@@ -3,6 +3,27 @@
 
 import { useState, FormEvent } from "react";
 import { submitLead } from "@/lib/leadService";
+import SelectDropdown from "@/components/shared/SelectDropdown";
+
+const SERVICE_OPTIONS = [
+  {
+    value: "Custom Web & Software Solutions",
+    label: "Custom Web & Software Solutions",
+  },
+  {
+    value: "API Development & Integration",
+    label: "API Development & Integration",
+  },
+  {
+    value: "Database Design & Management",
+    label: "Database Design & Management",
+  },
+  {
+    value: "Cloud Ready & Scalable Systems",
+    label: "Cloud Ready & Scalable Systems",
+  },
+  { value: "Other", label: "Other" },
+];
 
 const inputClass =
   "w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500";
@@ -107,26 +128,12 @@ export default function ContactForm() {
 
       <div>
         <label className={labelClass}>What are you interested in?</label>
-        <select
+        <SelectDropdown
           value={form.serviceInterest}
-          onChange={(e) => handleChange("serviceInterest", e.target.value)}
-          className={inputClass}
-        >
-          <option value="">Select a service</option>
-          <option value="Custom Web & Software Solutions">
-            Custom Web & Software Solutions
-          </option>
-          <option value="API Development & Integration">
-            API Development & Integration
-          </option>
-          <option value="Database Design & Management">
-            Database Design & Management
-          </option>
-          <option value="Cloud Ready & Scalable Systems">
-            Cloud Ready & Scalable Systems
-          </option>
-          <option value="Other">Other</option>
-        </select>
+          onChange={(v) => handleChange("serviceInterest", v)}
+          options={SERVICE_OPTIONS}
+          placeholder="Select a service"
+        />
       </div>
 
       <div>
